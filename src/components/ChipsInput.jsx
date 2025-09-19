@@ -1,40 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import useChips from "../hooks/useChips";
 
 const ChipsInput = () => {
-  const [chips, setChips] = useState(() => {
-    const storedChips = localStorage.getItem("myChips");
-    return storedChips ? JSON.parse(storedChips) : [];
-  });
-
-
-
-  const [enteredTxt, setEnteredTxt] = useState(null);
-
-  useEffect(() => {
-    localStorage.setItem("myChips", JSON.stringify(chips));
-  }, [chips]);
-
-  function handleChange(e) {
-    setEnteredTxt(e.target.value);
-  }
-
-  function handlBtnClick(indexRemove) {
-    setChips((prevChips) =>
-      prevChips.filter((_, index) => index !== indexRemove)
-    );
-  }
-
-  function handleKeys(event) {
-    if (event.key == "Enter") {
-      event.preventDefault();
-      const trimmedValue = enteredTxt.trim();
-      if (trimmedValue) {
-        setChips((prevChips) => [...prevChips, trimmedValue]);
-        setEnteredTxt("");
-      }
-    }
-  }
+  const { chips, enteredTxt, handleChange, handlBtnClick, handleKeys } =
+    useChips();
 
   return (
     <div className="mx-auto px-5 py-6 flex flex-col items-center bg-blue-300 h-screen">
